@@ -25,17 +25,17 @@
 			}
 
 			class Raider extends createjs.Container {
-				constructor(raider) {
+				constructor(raiderData) {
 					super();
 					var dot = new createjs.Shape()
-					var classColor = RAID_CLASS_COLORS[raider.class]
+					var classColor = RAID_CLASS_COLORS[raiderData.class]
 					dot.graphics.beginFill(classColor).drawCircle(0, 0, 10);
 					this.addChild(dot)
 
 					this.nameplate = new createjs.Container()
 					//var background = new createjs.Shape();
 					//background.graphics.beginFill("Grey").drawRect(0, 0, 100, 30);
-					var text = new createjs.Text(raider.name, "bold 12px Arial", classColor);
+					var text = new createjs.Text(raiderData.name, "bold 12px Arial", classColor);
 					text.x = 10
 					text.y = -5
 					//this.nameplate.addChild(background, text);
@@ -45,7 +45,7 @@
 			}
 
 			// TODO externalize to cookie/datafile/userinput/etc
-			var raiderData = [
+			var roster = [
 				{ name:"Picklenick"	, class:"Warrior"	, group:1 },
 				{ name:"Lootahona"	, class:"Warrior"	, group:1 },
 				{ name:"Edbert"		, class:"Warrior"	, group:1 },
@@ -91,19 +91,19 @@
 			function init() {
 				var canvas = document.getElementById('raidCanvas')
 				var stage = new createjs.Stage(canvas)
-				drawRaiders(raiderData, stage);
+				drawRaiders(roster, stage);
 				updateNameplates(true)
 				stage.update();
 			}
 			
 			var raiders = []
 
-			function drawRaiders(data, stage) {
+			function drawRaiders(raiderData, stage) {
 				var xOffset = 20
 				var yOffset = 20
 				var ySpacing = 22
-				for (i = 0; i < data.length; i++) {
-					var raider = new Raider(data[i])
+				for (i = 0; i < raiderData.length; i++) {
+					var raider = new Raider(raiderData[i])
 					raider.on("pressmove", function(evt) {
 						evt.currentTarget.x = evt.stageX;
 						evt.currentTarget.y = evt.stageY;
