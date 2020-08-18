@@ -29,14 +29,18 @@
 					super();
 					var dot = new createjs.Shape()
 					var classColor = RAID_CLASS_COLORS[raiderData.class]
-					dot.graphics.beginFill(classColor).drawCircle(0, 0, 10);
+					dot.graphics
+						.beginFill(classColor)
+						.beginStroke("#000000")
+						.setStrokeStyle(2)
+						.drawCircle(0, 0, 10)
 					this.addChild(dot)
 
 					this.nameplate = new createjs.Container()
 					//var background = new createjs.Shape();
 					//background.graphics.beginFill("Grey").drawRect(0, 0, 100, 30);
 					var text = new createjs.Text(raiderData.name, "bold 12px Arial", classColor);
-					text.x = 10
+					text.x = 12
 					text.y = -5
 					//this.nameplate.addChild(background, text);
 					this.nameplate.addChild(text);
