@@ -1,0 +1,130 @@
+<html>
+	<head>
+		<style>
+		body {
+			background-color:	#333333;
+			background-image:	url("CThun_Positioning.png");
+			background-repeat:	no-repeat;
+			background-size:	800px;
+			background-position:100px 0px;
+		}
+		</style>
+		<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+		<script>
+
+			var RAID_CLASS_COLORS = {
+				"Druid"		:	"#FF7D0A",
+				"Hunter"	:	"#ABD473",
+				"Mage"		:	"#69CCF0",
+				"Paladin"	:	"#F58CBA",
+				"Priest"	:	"#FFFFFF",
+				"Rogue"		:	"#FFF569",
+				"Shaman"	:	"#0070DE",
+				"Warlock"	:	"#9482C9",
+				"Warrior"	:	"#C79C6E",
+			}
+
+			class Raider extends createjs.Container {
+				constructor(raider) {
+					super();
+					var dot = new createjs.Shape()
+					var classColor = RAID_CLASS_COLORS[raider.class]
+					dot.graphics.beginFill(classColor).drawCircle(0, 0, 10);
+					this.addChild(dot)
+
+					this.nameplate = new createjs.Container()
+					//var background = new createjs.Shape();
+					//background.graphics.beginFill("Grey").drawRect(0, 0, 100, 30);
+					var text = new createjs.Text(raider.name, "bold 12px Arial", classColor);
+					text.x = 10
+					text.y = -5
+					//this.nameplate.addChild(background, text);
+					this.nameplate.addChild(text);
+					this.addChild(this.nameplate)
+				}
+			}
+
+			// TODO externalize to cookie/datafile/userinput/etc
+			var raiderData = [
+				{ name:"Picklenick"	, class:"Warrior"	, group:1 },
+				{ name:"Lootahona"	, class:"Warrior"	, group:1 },
+				{ name:"Edbert"		, class:"Warrior"	, group:1 },
+				{ name:"Coldbolt"	, class:"Warlock"	, group:1 },
+				{ name:"Shadowfist"	, class:"Shaman"	, group:1 },
+				{ name:"Zengath"	, class:"Rogue"		, group:2 },
+				{ name:"Serbagz"	, class:"Warrior"	, group:2 },
+				{ name:"Bigballz"	, class:"Warrior"	, group:2 },
+				{ name:"Cutepie"	, class:"Hunter"	, group:2 },
+				{ name:"Splash"		, class:"Shaman"	, group:2 },
+				{ name:"Grisha"		, class:"Rogue"		, group:3 },
+				{ name:"Gachi"		, class:"Rogue"		, group:3 },
+				{ name:"Marc"		, class:"Warrior"	, group:3 },
+				{ name:"Amitola"	, class:"Hunter"	, group:3 },
+				{ name:"Sofresh"	, class:"Shaman"	, group:3 },
+				{ name:"Matuchin"	, class:"Rogue"		, group:4 },
+				{ name:"Brian"		, class:"Rogue"		, group:4 },
+				{ name:"Doddler"	, class:"Warrior"	, group:4 },
+				{ name:"Nuck"		, class:"Warrior"	, group:4 },
+				{ name:"Xanax"		, class:"Shaman"	, group:4 },
+				{ name:"Killchan"	, class:"Warrior"	, group:5 },
+				{ name:"Claire"		, class:"Warrior"	, group:5 },
+				{ name:"(melee)"	, class:"Warrior"	, group:5 },
+				{ name:"Unagi"		, class:"Priest"	, group:5 },
+				{ name:"Macha"		, class:"Shaman"	, group:5 },
+				{ name:"Hufian"		, class:"Druid"		, group:6 },
+				{ name:"Dregadruid"	, class:"Druid"		, group:6 },
+				{ name:"Todefy"		, class:"Druid"		, group:6 },
+				{ name:"Unagi"		, class:"Priest"	, group:6 },
+				{ name:"(shaman)"	, class:"Shaman"	, group:6 },
+				{ name:"Aurheim"	, class:"Mage"		, group:7 },
+				{ name:"Enderson"	, class:"Mage"		, group:7 },
+				{ name:"Maurty"		, class:"Mage"		, group:7 },
+				{ name:"Qty"		, class:"Mage"		, group:7 },
+				{ name:"Andruis"	, class:"Priest"	, group:7 },
+				{ name:"Raioh"		, class:"Warlock"	, group:8 },
+				{ name:"Acadalia"	, class:"Warlock"	, group:8 },
+				{ name:"Vireo"		, class:"Warlock"	, group:8 },
+				{ name:"(mage)"		, class:"Mage"		, group:8 },
+				{ name:"Borichu"	, class:"Priest"	, group:8 },
+			]
+
+			function init() {
+				var canvas = document.getElementById('raidCanvas')
+				var stage = new createjs.Stage(canvas)
+				drawRaiders(raiderData, stage);
+				updateNameplates(true)
+				stage.update();
+			}
+			
+			var raiders = []
+
+			function drawRaiders(data, stage) {
+				var xOffset = 20
+				var yOffset = 20
+				var ySpacing = 22
+				for (i = 0; i < data.length; i++) {
+					var raider = new Raider(data[i])
+					raider.on("pressmove", function(evt) {
+						evt.currentTarget.x = evt.stageX;
+						evt.currentTarget.y = evt.stageY;
+						stage.update();
+					});
+					raider.x = xOffset
+					raider.y = yOffset + (ySpacing * i)
+					stage.addChild(raider);
+					raiders.push(raider);
+				}
+			}
+
+			function updateNameplates(showNameplates) {
+				for(i in raiders) {
+					raiders[i].nameplate.visible = showNameplates
+				}
+			}
+		</script>
+	</head>
+	<body onload="init();">
+		<img src=>
+		<canvas id="raidCanvas" width="1000" height="1000"></canvas>
+	</body>
+</html>
