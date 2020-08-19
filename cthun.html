@@ -29,6 +29,8 @@
 			class Raider extends createjs.Container {
 				constructor(raiderData) {
 					super();
+					this.x = raiderData.x
+					this.y = raiderData.y
 					var dot = new createjs.Shape()
 					var classColor = RAID_CLASS_COLORS[raiderData.class]
 					dot.graphics
@@ -56,82 +58,110 @@
 
 			// TODO externalize to cookie/datafile/userinput/etc
 			var roster = [
-				{ name:"Picklenick"	, class:"Warrior"	, group:1 },
-				{ name:"Lootahona"	, class:"Warrior"	, group:1 },
-				{ name:"Edbert"		, class:"Warrior"	, group:1 },
-				{ name:"Coldbolt"	, class:"Warlock"	, group:1 },
-				{ name:"Shadowfist"	, class:"Shaman"	, group:1 },
-				{ name:"Zengath"	, class:"Rogue"		, group:2 },
-				{ name:"Serbagz"	, class:"Warrior"	, group:2 },
-				{ name:"Bigballz"	, class:"Warrior"	, group:2 },
-				{ name:"Cutepie"	, class:"Hunter"	, group:2 },
-				{ name:"Splash"		, class:"Shaman"	, group:2 },
-				{ name:"Grisha"		, class:"Rogue"		, group:3 },
-				{ name:"Gachi"		, class:"Rogue"		, group:3 },
-				{ name:"Marc"		, class:"Warrior"	, group:3 },
-				{ name:"Amitola"	, class:"Hunter"	, group:3 },
-				{ name:"Sofresh"	, class:"Shaman"	, group:3 },
-				{ name:"Matuchin"	, class:"Rogue"		, group:4 },
-				{ name:"Brian"		, class:"Rogue"		, group:4 },
-				{ name:"Doddler"	, class:"Warrior"	, group:4 },
-				{ name:"Nuck"		, class:"Warrior"	, group:4 },
-				{ name:"Xanax"		, class:"Shaman"	, group:4 },
-				{ name:"Killchan"	, class:"Warrior"	, group:5 },
-				{ name:"Claire"		, class:"Warrior"	, group:5 },
-				{ name:"(melee)"	, class:"Warrior"	, group:5 },
-				{ name:"Unagi"		, class:"Priest"	, group:5 },
-				{ name:"Macha"		, class:"Shaman"	, group:5 },
-				{ name:"Hufian"		, class:"Druid"		, group:6 },
-				{ name:"Dregadruid"	, class:"Druid"		, group:6 },
-				{ name:"Todefy"		, class:"Druid"		, group:6 },
-				{ name:"Unagi"		, class:"Priest"	, group:6 },
-				{ name:"(shaman)"	, class:"Shaman"	, group:6 },
-				{ name:"Aurheim"	, class:"Mage"		, group:7 },
-				{ name:"Enderson"	, class:"Mage"		, group:7 },
-				{ name:"Maurty"		, class:"Mage"		, group:7 },
-				{ name:"Qty"		, class:"Mage"		, group:7 },
-				{ name:"Andruis"	, class:"Priest"	, group:7 },
-				{ name:"Raioh"		, class:"Warlock"	, group:8 },
-				{ name:"Acadalia"	, class:"Warlock"	, group:8 },
-				{ name:"Vireo"		, class:"Warlock"	, group:8 },
-				{ name:"(mage)"		, class:"Mage"		, group:8 },
-				{ name:"Borichu"	, class:"Priest"	, group:8 },
+				{ name:"Picklenick"	, class:"Warrior"	, group:1, x:0, y:0},
+				{ name:"Lootahona"	, class:"Warrior"	, group:1, x:0, y:0},
+				{ name:"Edbert"		, class:"Warrior"	, group:1, x:0, y:0},
+				{ name:"Coldbolt"	, class:"Warlock"	, group:1, x:0, y:0},
+				{ name:"Shadowfist"	, class:"Shaman"	, group:1, x:0, y:0},
+				{ name:"Zengath"	, class:"Rogue"		, group:2, x:0, y:0},
+				{ name:"Serbagz"	, class:"Warrior"	, group:2, x:0, y:0},
+				{ name:"Bigballz"	, class:"Warrior"	, group:2, x:0, y:0},
+				{ name:"Cutepie"	, class:"Hunter"	, group:2, x:0, y:0},
+				{ name:"Splash"		, class:"Shaman"	, group:2, x:0, y:0},
+				{ name:"Grisha"		, class:"Rogue"		, group:3, x:0, y:0},
+				{ name:"Gachi"		, class:"Rogue"		, group:3, x:0, y:0},
+				{ name:"Marc"		, class:"Warrior"	, group:3, x:0, y:0},
+				{ name:"Amitola"	, class:"Hunter"	, group:3, x:0, y:0},
+				{ name:"Sofresh"	, class:"Shaman"	, group:3, x:0, y:0},
+				{ name:"Matuchin"	, class:"Rogue"		, group:4, x:0, y:0},
+				{ name:"Brian"		, class:"Rogue"		, group:4, x:0, y:0},
+				{ name:"Doddler"	, class:"Warrior"	, group:4, x:0, y:0},
+				{ name:"Nuck"		, class:"Warrior"	, group:4, x:0, y:0},
+				{ name:"Xanax"		, class:"Shaman"	, group:4, x:0, y:0},
+				{ name:"Killchan"	, class:"Warrior"	, group:5, x:0, y:0},
+				{ name:"Claire"		, class:"Warrior"	, group:5, x:0, y:0},
+				{ name:"(melee)"	, class:"Warrior"	, group:5, x:0, y:0},
+				{ name:"Unagi"		, class:"Priest"	, group:5, x:0, y:0},
+				{ name:"Macha"		, class:"Shaman"	, group:5, x:0, y:0},
+				{ name:"Hufian"		, class:"Druid"		, group:6, x:0, y:0},
+				{ name:"Dregadruid"	, class:"Druid"		, group:6, x:0, y:0},
+				{ name:"Todefy"		, class:"Druid"		, group:6, x:0, y:0},
+				{ name:"Unagi"		, class:"Priest"	, group:6, x:0, y:0},
+				{ name:"(shaman)"	, class:"Shaman"	, group:6, x:0, y:0},
+				{ name:"Aurheim"	, class:"Mage"		, group:7, x:0, y:0},
+				{ name:"Enderson"	, class:"Mage"		, group:7, x:0, y:0},
+				{ name:"Maurty"		, class:"Mage"		, group:7, x:0, y:0},
+				{ name:"Qty"		, class:"Mage"		, group:7, x:0, y:0},
+				{ name:"Andruis"	, class:"Priest"	, group:7, x:0, y:0},
+				{ name:"Raioh"		, class:"Warlock"	, group:8, x:0, y:0},
+				{ name:"Acadalia"	, class:"Warlock"	, group:8, x:0, y:0},
+				{ name:"Vireo"		, class:"Warlock"	, group:8, x:0, y:0},
+				{ name:"(mage)"		, class:"Mage"		, group:8, x:0, y:0},
+				{ name:"Borichu"	, class:"Priest"	, group:8, x:0, y:0},
 			]
 
 			var stage = null
-			var raiders = []
+			var raiderDisplays = []
 
 			function init() {
 				var canvas = document.getElementById('raidCanvas')
 				stage = new createjs.Stage(canvas)
-				drawRaiders(roster);
+				loadRoster()
 				updateNameplates(true)
-				stage.update();
 			}
 
-			function drawRaiders(raiderData) {
+			function loadRoster() {
+				var loadedRoster = JSON.parse(localStorage.getItem('roster'));
+				if(loadedRoster) {
+					roster = loadedRoster
+				}
+				createRaiderDisplays();
+				if(!loadedRoster) {
+					resetRaiderPositions()
+				}
+			}
+
+			function resetRaiderPositions() {
 				var xOffset = 20
 				var yOffset = 20
 				var ySpacing = 22
-				for (i = 0; i < raiderData.length; i++) {
-					var raider = new Raider(raiderData[i])
+				for(i in raiderDisplays) {
+					raiderDisplays[i].x = xOffset
+					raiderDisplays[i].y = yOffset + (ySpacing * i)
+				}
+				stage.update();
+			}
+
+			function createRaiderDisplays() {
+				for(i in roster) {
+					var raider = new Raider(roster[i])
 					raider.on("pressmove", function(evt) {
 						evt.currentTarget.x = evt.stageX;
 						evt.currentTarget.y = evt.stageY;
 						stage.update();
 					});
-					raider.x = xOffset
-					raider.y = yOffset + (ySpacing * i)
+					raiderDisplays.push(raider);
 					stage.addChild(raider);
-					raiders.push(raider);
 				}
 			}
 
 			function updateNameplates(showNameplates) {
-				for(i in raiders) {
-					raiders[i].nameplate.visible = showNameplates
+				for(i in raiderDisplays) {
+					raiderDisplays[i].nameplate.visible = showNameplates
 				}
 				stage.update()
+			}
+
+			function save() {
+				updateRosterPositions()
+				localStorage.setItem('roster', JSON.stringify(roster));
+			}
+
+			function updateRosterPositions() {
+				for(i in raiderDisplays) {
+					roster[i].x = raiderDisplays[i].x
+					roster[i].y = raiderDisplays[i].y
+				}
 			}
 
 		</script>
@@ -139,6 +169,8 @@
 	<body onload="init();">
 		<div>
 			<label><input type='checkbox' id="showNames" onclick='updateNameplates(this.checked);' checked='true'>Show Names</label>
+			<input type='button' id="save" onclick='save();' value="Save">
+			<input type='button' id="reset" onclick='resetRaiderPositions();' value="Reset">
 		</div>
 		<img src=>
 		<canvas id="raidCanvas" width="1000" height="1000"></canvas>
