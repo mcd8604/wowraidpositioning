@@ -6,7 +6,9 @@
 			background-image:	url("CThun_Positioning.png");
 			background-repeat:	no-repeat;
 			background-size:	800px;
-			background-position:100px 0px;
+			background-position:150px 0px;
+			font-family: "Arial";
+			font-weight: bold;
 		}
 		</style>
 		<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
@@ -93,17 +95,18 @@
 				{ name:"Borichu"	, class:"Priest"	, group:8 },
 			]
 
+			var stage = null
+			var raiders = []
+
 			function init() {
 				var canvas = document.getElementById('raidCanvas')
-				var stage = new createjs.Stage(canvas)
-				drawRaiders(roster, stage);
+				stage = new createjs.Stage(canvas)
+				drawRaiders(roster);
 				updateNameplates(true)
 				stage.update();
 			}
-			
-			var raiders = []
 
-			function drawRaiders(raiderData, stage) {
+			function drawRaiders(raiderData) {
 				var xOffset = 20
 				var yOffset = 20
 				var ySpacing = 22
@@ -125,10 +128,15 @@
 				for(i in raiders) {
 					raiders[i].nameplate.visible = showNameplates
 				}
+				stage.update()
 			}
+
 		</script>
 	</head>
 	<body onload="init();">
+		<div>
+			<label><input type='checkbox' id="showNames" onclick='updateNameplates(this.checked);' checked='true'>Show Names</label>
+		</div>
 		<img src=>
 		<canvas id="raidCanvas" width="1000" height="1000"></canvas>
 	</body>
