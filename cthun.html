@@ -37,16 +37,19 @@
 						.setStrokeStyle(2)
 						.drawCircle(0, 0, 10)
 					this.addChild(dot)
-
+					var group = new createjs.Text(raiderData.group, "bold 12px Arial", 'Black');
+					group.x = -3
+					group.y = -4
+					this.addChild(group)
 					this.nameplate = new createjs.Container()
 					//var background = new createjs.Shape();
 					//background.graphics.beginFill("Grey").drawRect(0, 0, 100, 30);
-					var text = new createjs.Text(raiderData.name, "bold 12px Arial", classColor);
-					text.shadow = new createjs.Shadow("#000000", 2, 2, 3);
-					text.x = 12
-					text.y = -5
-					//this.nameplate.addChild(background, text);
-					this.nameplate.addChild(text);
+					var name = new createjs.Text(raiderData.name, "bold 12px Arial", classColor);
+					name.shadow = new createjs.Shadow("#000000", 2, 2, 3);
+					name.x = 12
+					name.y = -5
+					//this.nameplate.addChild(background, name);
+					this.nameplate.addChild(name);
 					this.addChild(this.nameplate)
 				}
 			}
