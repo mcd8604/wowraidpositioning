@@ -11,6 +11,7 @@
 			font-weight: bold;
 		}
 		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
 		<script>
 
@@ -26,115 +27,161 @@
 				"Warrior"	:	"#C79C6E",
 			}
 
-			class Raider extends createjs.Container {
-				constructor(raiderData) {
+			class RaiderDisplay extends createjs.Container {
+				constructor() {
 					super();
-					this.x = raiderData.x
-					this.y = raiderData.y
-					var dot = new createjs.Shape()
-					var classColor = RAID_CLASS_COLORS[raiderData.class]
-					dot.graphics
+					this.dot = new createjs.Shape()
+					this.dot.graphics
+						.beginFill("Grey")
+						.beginStroke("#000000")
+						.setStrokeStyle(2)
+						.drawCircle(0, 0, 10)
+					this.addChild(this.dot)
+					this.groupText = new createjs.Text("", "bold 12px Arial", "Black");
+					this.groupText.x = -3
+					this.groupText.y = -4
+					this.addChild(this.groupText)
+					this.nameplate = new createjs.Container()
+					//var background = new createjs.Shape();
+					//background.graphics.beginFill("Grey").drawRect(0, 0, 100, 30);
+					this.nameText = new createjs.Text("", "bold 12px Arial", "Grey");
+					this.nameText.shadow = new createjs.Shadow("#000000", 1, 1, 2);
+					this.nameText.x = 12
+					this.nameText.y = -5
+					//this.nameplate.addChild(background, name);
+					this.nameplate.addChild(this.nameText);
+					this.addChild(this.nameplate)
+				}
+				setRosterData(rosterData) {
+					var classColor = RAID_CLASS_COLORS[rosterData.class]
+					this.dot.graphics
 						.beginFill(classColor)
 						.beginStroke("#000000")
 						.setStrokeStyle(2)
 						.drawCircle(0, 0, 10)
-					this.addChild(dot)
-					var group = new createjs.Text(raiderData.group, "bold 12px Arial", 'Black');
-					group.x = -3
-					group.y = -4
-					this.addChild(group)
-					this.nameplate = new createjs.Container()
-					//var background = new createjs.Shape();
-					//background.graphics.beginFill("Grey").drawRect(0, 0, 100, 30);
-					var name = new createjs.Text(raiderData.name, "bold 12px Arial", classColor);
-					name.shadow = new createjs.Shadow("#000000", 1, 1, 2);
-					name.x = 12
-					name.y = -5
-					//this.nameplate.addChild(background, name);
-					this.nameplate.addChild(name);
-					this.addChild(this.nameplate)
+					this.groupText.text = rosterData.group
+					this.nameText.text = rosterData.name
+					this.nameText.color = classColor
 				}
 			}
 
 			// TODO externalize to cookie/datafile/userinput/etc
-			var roster = [
-				{ name:"Picklenick"	, class:"Warrior"	, group:1, x:0, y:0},
-				{ name:"Lootahona"	, class:"Warrior"	, group:1, x:0, y:0},
-				{ name:"Edbert"		, class:"Warrior"	, group:1, x:0, y:0},
-				{ name:"Coldbolt"	, class:"Warlock"	, group:1, x:0, y:0},
-				{ name:"Shadowfist"	, class:"Shaman"	, group:1, x:0, y:0},
-				{ name:"Zengath"	, class:"Rogue"		, group:2, x:0, y:0},
-				{ name:"Serbagz"	, class:"Warrior"	, group:2, x:0, y:0},
-				{ name:"Bigballz"	, class:"Warrior"	, group:2, x:0, y:0},
-				{ name:"Cutepie"	, class:"Hunter"	, group:2, x:0, y:0},
-				{ name:"Splash"		, class:"Shaman"	, group:2, x:0, y:0},
-				{ name:"Grisha"		, class:"Rogue"		, group:3, x:0, y:0},
-				{ name:"Gachi"		, class:"Rogue"		, group:3, x:0, y:0},
-				{ name:"Marc"		, class:"Warrior"	, group:3, x:0, y:0},
-				{ name:"Amitola"	, class:"Hunter"	, group:3, x:0, y:0},
-				{ name:"Sofresh"	, class:"Shaman"	, group:3, x:0, y:0},
-				{ name:"Matuchin"	, class:"Rogue"		, group:4, x:0, y:0},
-				{ name:"Brian"		, class:"Rogue"		, group:4, x:0, y:0},
-				{ name:"Doddler"	, class:"Warrior"	, group:4, x:0, y:0},
-				{ name:"Nuck"		, class:"Warrior"	, group:4, x:0, y:0},
-				{ name:"Xanax"		, class:"Shaman"	, group:4, x:0, y:0},
-				{ name:"Killchan"	, class:"Warrior"	, group:5, x:0, y:0},
-				{ name:"Claire"		, class:"Warrior"	, group:5, x:0, y:0},
-				{ name:"Scamaz"		, class:"Priest"	, group:5, x:0, y:0},
-				{ name:"Unagi"		, class:"Priest"	, group:5, x:0, y:0},
-				{ name:"Macha"		, class:"Shaman"	, group:5, x:0, y:0},
-				{ name:"Hufian"		, class:"Druid"		, group:6, x:0, y:0},
-				{ name:"Dregadruid"	, class:"Druid"		, group:6, x:0, y:0},
-				{ name:"Todefy"		, class:"Druid"		, group:6, x:0, y:0},
-				{ name:"Mipha"		, class:"Priest"	, group:6, x:0, y:0},
-				{ name:"(shaman)"	, class:"Shaman"	, group:6, x:0, y:0},
-				{ name:"Aurheim"	, class:"Mage"		, group:7, x:0, y:0},
-				{ name:"Enderson"	, class:"Mage"		, group:7, x:0, y:0},
-				{ name:"Maurty"		, class:"Mage"		, group:7, x:0, y:0},
-				{ name:"Qty"		, class:"Mage"		, group:7, x:0, y:0},
-				{ name:"Andruis"	, class:"Priest"	, group:7, x:0, y:0},
-				{ name:"Raioh"		, class:"Warlock"	, group:8, x:0, y:0},
-				{ name:"Acadalia"	, class:"Warlock"	, group:8, x:0, y:0},
-				{ name:"Vireo"		, class:"Warlock"	, group:8, x:0, y:0},
-				{ name:"(mage)"		, class:"Mage"		, group:8, x:0, y:0},
-				{ name:"Borichu"	, class:"Priest"	, group:8, x:0, y:0},
+			var DEFAULT_ROSTER = [
+				{ name:"Picklenick"	, class:"Warrior"	, group:1 },
+				{ name:"Lootahona"	, class:"Warrior"	, group:1 },
+				{ name:"Edbert"		, class:"Warrior"	, group:1 },
+				{ name:"Coldbolt"	, class:"Warlock"	, group:1 },
+				{ name:"Shadowfist"	, class:"Shaman"	, group:1 },
+				{ name:"Zengath"	, class:"Rogue"		, group:2 },
+				{ name:"Serbagz"	, class:"Warrior"	, group:2 },
+				{ name:"Bigballz"	, class:"Warrior"	, group:2 },
+				{ name:"Cutepie"	, class:"Hunter"	, group:2 },
+				{ name:"Splash"		, class:"Shaman"	, group:2 },
+				{ name:"Grisha"		, class:"Rogue"		, group:3 },
+				{ name:"Gachi"		, class:"Rogue"		, group:3 },
+				{ name:"Marc"		, class:"Warrior"	, group:3 },
+				{ name:"Amitola"	, class:"Hunter"	, group:3 },
+				{ name:"Sofresh"	, class:"Shaman"	, group:3 },
+				{ name:"Matuchin"	, class:"Rogue"		, group:4 },
+				{ name:"Brian"		, class:"Rogue"		, group:4 },
+				{ name:"Doddler"	, class:"Warrior"	, group:4 },
+				{ name:"Nuck"		, class:"Warrior"	, group:4 },
+				{ name:"Xanax"		, class:"Shaman"	, group:4 },
+				{ name:"Killchan"	, class:"Warrior"	, group:5 },
+				{ name:"Claire"		, class:"Warrior"	, group:5 },
+				{ name:"Scamaz"		, class:"Priest"	, group:5 },
+				{ name:"Unagi"		, class:"Priest"	, group:5 },
+				{ name:"Macha"		, class:"Shaman"	, group:5 },
+				{ name:"Hufian"		, class:"Druid"		, group:6 },
+				{ name:"Dregadruid"	, class:"Druid"		, group:6 },
+				{ name:"Todefy"		, class:"Druid"		, group:6 },
+				{ name:"Mipha"		, class:"Priest"	, group:6 },
+				{ name:"(shaman)"	, class:"Shaman"	, group:6 },
+				{ name:"Aurheim"	, class:"Mage"		, group:7 },
+				{ name:"Enderson"	, class:"Mage"		, group:7 },
+				{ name:"Maurty"		, class:"Mage"		, group:7 },
+				{ name:"Qty"		, class:"Mage"		, group:7 },
+				{ name:"Andruis"	, class:"Priest"	, group:7 },
+				{ name:"Raioh"		, class:"Warlock"	, group:8 },
+				{ name:"Acadalia"	, class:"Warlock"	, group:8 },
+				{ name:"Vireo"		, class:"Warlock"	, group:8 },
+				{ name:"(mage)"		, class:"Mage"		, group:8 },
+				{ name:"Borichu"	, class:"Priest"	, group:8 },
 			]
-
+			var MAX_NUM_RAIDERS = 40
+			var DEFAULT_ROSTER_NAME = "Default Roster"
+			var DEFAULT_LAYOUT_NAME = "Default Layout"
+			var currentRoster = DEFAULT_ROSTER
+			var currentRosterName = DEFAULT_ROSTER_NAME
+			var currentLayout = []
+			var currentLayoutName = DEFAULT_LAYOUT_NAME
 			var stage = null
 			var raiderDisplays = []
 
 			function init() {
 				var canvas = document.getElementById('raidCanvas')
 				stage = new createjs.Stage(canvas)
-				loadRoster()
-				updateNameplates(true)
+				//loadDefaultRoster()
+				loadDefaultLayout()
+				loadLayoutNames()
+				createRaiderDisplays()
 			}
 
-			function loadRoster() {
-				var loadedRoster = JSON.parse(localStorage.getItem('roster'));
+			/* function loadDefaultRoster() {
+				currentRoster = DEFAULT_ROSTER
+				currentRosterName = DEFAULT_ROSTER_NAME
+			} */
+
+			/* function loadRoster(name) {
+				var rosters = loadRosters()
+				var loadedRoster = rosters[name]
 				if(loadedRoster) {
-					roster = loadedRoster
+					currentRosterName = name
+					currentRoster = loadedRoster
+					setRosterData(currentRoster)
 				}
-				createRaiderDisplays();
-				if(!loadedRoster) {
-					resetRaiderPositions()
+			} */
+
+			function loadDefaultLayout() {
+				currentLayout = []
+				for(var i = 0; i < MAX_NUM_RAIDERS; i++) {
+					currentLayout.push({ x:0, y:0 })
 				}
+				setDefaultLayoutPositions(currentLayout)
 			}
 
-			function resetRaiderPositions() {
+			function setDefaultLayoutPositions(layout) {
 				var xOffset = 20
 				var yOffset = 20
 				var ySpacing = 22
-				for(i in raiderDisplays) {
-					raiderDisplays[i].x = xOffset
-					raiderDisplays[i].y = yOffset + (ySpacing * i)
+				for(i in layout) {
+					layout[i].x = xOffset
+					layout[i].y = yOffset + (ySpacing * i)
 				}
-				stage.update();
+			}
+
+			function loadLayoutNames() {
+				var layoutNames = JSON.parse(localStorage.getItem('layoutNames'))
+				if(!layoutNames) {
+					layoutNames = []
+					localStorage.setItem('layoutNames', JSON.stringify(layoutNames))
+				}
+				layoutNames.unshift(DEFAULT_LAYOUT_NAME);
+				populateLayoutSelect(layoutNames)
+			}
+
+			function populateLayoutSelect(layoutNames) {
+				$('#layoutSelect').empty();
+				for (var i in layoutNames) {
+					var name = layoutNames[i]
+					$('#layoutSelect').append(new Option(name, name));
+				}
 			}
 
 			function createRaiderDisplays() {
-				for(i in roster) {
-					var raider = new Raider(roster[i])
+				// TODO dispose of existing raiderDisplays
+				for(var i = 0; i < MAX_NUM_RAIDERS; i++) {
+					var raider = new RaiderDisplay()
 					raider.on("pressmove", function(evt) {
 						evt.currentTarget.x = evt.stageX;
 						evt.currentTarget.y = evt.stageY;
@@ -142,6 +189,22 @@
 					});
 					raiderDisplays.push(raider);
 					stage.addChild(raider);
+				}
+				setLayoutPositions(currentLayout)
+				setRosterData(currentRoster)
+				updateNameplates(true)
+			}
+
+			function setLayoutPositions(layout) {
+				for(i in layout) {
+					raiderDisplays[i].x = layout[i].x
+					raiderDisplays[i].y = layout[i].y
+				}
+			}
+
+			function setRosterData(roster) {
+				for(i in roster) {
+					raiderDisplays[i].setRosterData(roster[i])
 				}
 			}
 
@@ -152,16 +215,72 @@
 				stage.update()
 			}
 
-			function save() {
-				updateRosterPositions()
-				localStorage.setItem('roster', JSON.stringify(roster));
+			function loadLayout(name) {
+				if(name == DEFAULT_LAYOUT_NAME) {
+					currentLayoutName = name
+					setDefaultLayoutPositions(currentLayout)
+					setLayoutPositions(currentLayout)
+				} else {
+					var layouts = loadLayouts()
+					var loadedLayout = layouts[name]
+					if(loadedLayout) {
+						currentLayoutName = name
+						currentLayout = loadedLayout
+						setLayoutPositions(loadedLayout)
+					}
+				}
 			}
 
-			function updateRosterPositions() {
-				for(i in raiderDisplays) {
-					roster[i].x = raiderDisplays[i].x
-					roster[i].y = raiderDisplays[i].y
+			function loadLayouts() {
+				var layouts = JSON.parse(localStorage.getItem('layouts'))
+				if(!layouts) {
+					layouts = {}
+					localStorage.setItem('layouts', JSON.stringify(layouts))
 				}
+				return layouts
+			}
+
+			function saveAs() {
+				var name = prompt("Please enter a name for the new layout")
+				var layouts = loadLayouts()
+				var exists = layouts[name]
+				if(exists || name == DEFAULT_LAYOUT_NAME) {
+					dialog(name + " already exists.")
+				} else {
+					currentLayoutName = name
+					var layoutNames = JSON.parse(localStorage.getItem('layoutNames'))
+					layoutNames.push(currentLayoutName)
+					localStorage.setItem('layoutNames', JSON.stringify(layoutNames));
+					saveCurrentLayout(name)
+					loadLayoutNames()
+					$('#layoutSelect').value = currentLayoutName
+				}
+			}
+
+			function saveCurrentLayout() {
+				if(currentLayoutName != DEFAULT_LAYOUT_NAME) {
+					updateLayoutPositions()
+					var layouts = loadLayouts()
+					layouts[currentLayoutName] = currentLayout
+					localStorage.setItem('layouts', JSON.stringify(layouts));
+				}
+			}
+
+			function updateLayoutPositions() {
+				for(i in raiderDisplays) {
+					currentLayout[i].x = raiderDisplays[i].x
+					currentLayout[i].y = raiderDisplays[i].y
+				}
+			}
+
+			function layoutSelect(layoutName) {
+				loadLayout(layoutName)
+				stage.update()
+			}
+
+			function resetLayout() {
+				setLayoutPositions(currentLayout)
+				stage.update()
 			}
 
 		</script>
@@ -169,8 +288,11 @@
 	<body onload="init();">
 		<div>
 			<label><input type='checkbox' id="showNames" onclick='updateNameplates(this.checked);' checked='true'>Show Names</label>
-			<input type='button' id="save" onclick='save();' value="Save">
-			<input type='button' id="reset" onclick='resetRaiderPositions();' value="Reset">
+			<!-- <input type='button' id="new" onclick='newRosterLayout();' value="New" /> -->
+			<select id="layoutSelect" onchange="layoutSelect(value)">
+			<input type='button' id="save" onclick='saveCurrentLayout();' value="Save">
+			<input type='button' id="saveAs" onclick='saveAs();' value="Save As">
+			<input type='button' id="reset" onclick='resetLayout();' value="Reset">
 		</div>
 		<canvas id="raidCanvas" width="1000" height="1000"></canvas>
 	</body>
