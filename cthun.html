@@ -3,8 +3,6 @@
 		<style>
 		body {
 			background-color:	#333333;
-			/* background-image:	url("CThun_Positioning.png"); */
-			background-image:	url("https://assets.rpglogs.com/img/warcraft/maps/321-map.png");
 			background-repeat:	no-repeat;
 			font-family: "Arial";
 			font-weight: bold;
@@ -145,8 +143,20 @@
 
 			function populateEncounterSelect(encounters) {
 				$('#encounterSelect').empty();
+				var currentEncounter = localStorage.getItem('currentEncounter');
+				if(!encounters[currentEncounter]) {
+					alert('ahh')
+					currentEncounter = null
+				}
 				for (var name in encounters) {
+					if(!currentEncounter) {
+						currentEncounter = name
+					}
 					$('#encounterSelect').append(new Option(name));
+				}
+				if(currentEncounter) {
+					$('#encounterSelect').val(currentEncounter)
+					encounterSelect(currentEncounter)
 				}
 			}
 
@@ -298,6 +308,7 @@
 					.css("background-image", "url("+encounterData.url+")")
 					.css("background-position", encounterData.position)
 					.css("background-size", encounterData.size)
+				localStorage.setItem('currentEncounter', name);
 				stage.update()
 			}
 

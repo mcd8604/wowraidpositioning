@@ -11,7 +11,7 @@ ENCOUNTER_BACKGROUNDS = {
 	},
 	"C'Thun 2" : {
 		url : 		"https://assets.rpglogs.com/img/warcraft/maps/321-map.png",
-		position: 	"0px 0px",
-		size:		"800px"
+		position: 	"-817px -618px",
+		size:		"2219px 1479px"
 	}
 }
