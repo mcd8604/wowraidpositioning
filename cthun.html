@@ -3,16 +3,16 @@
 		<style>
 		body {
 			background-color:	#333333;
-			background-image:	url("CThun_Positioning.png");
+			/* background-image:	url("CThun_Positioning.png"); */
+			background-image:	url("https://assets.rpglogs.com/img/warcraft/maps/321-map.png");
 			background-repeat:	no-repeat;
-			background-size:	800px;
-			background-position:150px 0px;
 			font-family: "Arial";
 			font-weight: bold;
 		}
 		</style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+		<script src="encounters.js"></script>
 		<script>
 
 			var RAID_CLASS_COLORS = {
@@ -85,18 +85,18 @@
 				{ name:"Matuchin"	, class:"Rogue"		, group:4 },
 				{ name:"Brian"		, class:"Rogue"		, group:4 },
 				{ name:"Doddler"	, class:"Warrior"	, group:4 },
-				{ name:"Nuck"		, class:"Warrior"	, group:4 },
+				{ name:"Nutsak"		, class:"Hunter"	, group:4 },
 				{ name:"Xanax"		, class:"Shaman"	, group:4 },
 				{ name:"Killchan"	, class:"Warrior"	, group:5 },
 				{ name:"Claire"		, class:"Warrior"	, group:5 },
-				{ name:"Scamaz"		, class:"Priest"	, group:5 },
-				{ name:"Unagi"		, class:"Priest"	, group:5 },
-				{ name:"Macha"		, class:"Shaman"	, group:5 },
+				{ name:"Nuck"		, class:"Warrior"	, group:5 },
+				{ name:"Ire"		, class:"Warrior"	, group:5 },
+				{ name:"Quorum"		, class:"Shaman"	, group:5 },
 				{ name:"Hufian"		, class:"Druid"		, group:6 },
 				{ name:"Dregadruid"	, class:"Druid"		, group:6 },
-				{ name:"Todefy"		, class:"Druid"		, group:6 },
+				{ name:"Scamaz"		, class:"Priest"	, group:6 },
 				{ name:"Mipha"		, class:"Priest"	, group:6 },
-				{ name:"(shaman)"	, class:"Shaman"	, group:6 },
+				{ name:"Unagi"		, class:"Priest"	, group:6 },
 				{ name:"Aurheim"	, class:"Mage"		, group:7 },
 				{ name:"Enderson"	, class:"Mage"		, group:7 },
 				{ name:"Maurty"		, class:"Mage"		, group:7 },
@@ -105,7 +105,7 @@
 				{ name:"Raioh"		, class:"Warlock"	, group:8 },
 				{ name:"Acadalia"	, class:"Warlock"	, group:8 },
 				{ name:"Vireo"		, class:"Warlock"	, group:8 },
-				{ name:"(mage)"		, class:"Mage"		, group:8 },
+				{ name:"Korvyna"	, class:"Mage"		, group:8 },
 				{ name:"Borichu"	, class:"Priest"	, group:8 },
 			]
 			var MAX_NUM_RAIDERS = 40
@@ -122,6 +122,7 @@
 				var canvas = document.getElementById('raidCanvas')
 				stage = new createjs.Stage(canvas)
 				//loadDefaultRoster()
+				populateEncounterSelect(ENCOUNTER_BACKGROUNDS)
 				loadDefaultLayout()
 				loadLayoutNames()
 				createRaiderDisplays()
@@ -141,6 +142,13 @@
 					setRosterData(currentRoster)
 				}
 			} */
+
+			function populateEncounterSelect(encounters) {
+				$('#encounterSelect').empty();
+				for (var name in encounters) {
+					$('#encounterSelect').append(new Option(name));
+				}
+			}
 
 			function loadDefaultLayout() {
 				currentLayout = []
@@ -180,6 +188,7 @@
 
 			function createRaiderDisplays() {
 				// TODO dispose of existing raiderDisplays
+				raiderDisplays = []
 				for(var i = 0; i < MAX_NUM_RAIDERS; i++) {
 					var raider = new RaiderDisplay()
 					raider.on("pressmove", function(evt) {
@@ -283,16 +292,26 @@
 				stage.update()
 			}
 
+			function encounterSelect(name) {
+				var encounterData = ENCOUNTER_BACKGROUNDS[name]
+				$("body")
+					.css("background-image", "url("+encounterData.url+")")
+					.css("background-position", encounterData.position)
+					.css("background-size", encounterData.size)
+				stage.update()
+			}
+
 		</script>
 	</head>
 	<body onload="init();">
 		<div>
 			<label><input type='checkbox' id="showNames" onclick='updateNameplates(this.checked);' checked='true'>Show Names</label>
 			<!-- <input type='button' id="new" onclick='newRosterLayout();' value="New" /> -->
-			<select id="layoutSelect" onchange="layoutSelect(value)">
-			<input type='button' id="save" onclick='saveCurrentLayout();' value="Save">
-			<input type='button' id="saveAs" onclick='saveAs();' value="Save As">
-			<input type='button' id="reset" onclick='resetLayout();' value="Reset">
+			<label><select id="layoutSelect" onchange="layoutSelect(value)"></select></label>
+			<label><input type='button' id="save" onclick='saveCurrentLayout();' value="Save"></label>
+			<label><input type='button' id="saveAs" onclick='saveAs();' value="Save As"></label>
+			<label><input type='button' id="reset" onclick='resetLayout();' value="Reset"></label>
+			<label><select id="encounterSelect" onchange="encounterSelect(value)"></select></label>
 		</div>
 		<canvas id="raidCanvas" width="1000" height="1000"></canvas>
 	</body>
