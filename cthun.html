@@ -113,6 +113,7 @@
 			var currentRosterName = DEFAULT_ROSTER_NAME
 			var currentLayout = []
 			var currentLayoutName = DEFAULT_LAYOUT_NAME
+			var currentDungeon = AQ_40
 			var stage = null
 			var raiderDisplays = []
 
@@ -120,7 +121,7 @@
 				var canvas = document.getElementById('raidCanvas')
 				stage = new createjs.Stage(canvas)
 				//loadDefaultRoster()
-				populateEncounterSelect(ENCOUNTER_BACKGROUNDS)
+				populateEncounterSelect(currentDungeon)
 				loadDefaultLayout()
 				loadLayoutNames()
 				createRaiderDisplays()
@@ -303,7 +304,7 @@
 			}
 
 			function encounterSelect(name) {
-				var encounterData = ENCOUNTER_BACKGROUNDS[name]
+				var encounterData = currentDungeon[name]
 				$("body")
 					.css("background-image", "url("+encounterData.url+")")
 					.css("background-position", encounterData.position)
