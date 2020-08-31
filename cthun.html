@@ -113,7 +113,8 @@
 			var currentRosterName = DEFAULT_ROSTER_NAME
 			var currentLayout = []
 			var currentLayoutName = DEFAULT_LAYOUT_NAME
-			var currentDungeon = AQ_40
+			var currentInstanceName = null
+			var currentEncounterName = null
 			var stage = null
 			var raiderDisplays = []
 
@@ -121,7 +122,8 @@
 				var canvas = document.getElementById('raidCanvas')
 				stage = new createjs.Stage(canvas)
 				//loadDefaultRoster()
-				populateEncounterSelect(currentDungeon)
+				currentInstanceName = populateSelect(INSTANCES, 'instanceSelect', 'currentInstance')
+				currentEncounterName = populateSelect(INSTANCES[currentInstanceName], 'encounterSelect', 'currentEncounter', encounterSelect) 
 				loadDefaultLayout()
 				loadLayoutNames()
 				createRaiderDisplays()
@@ -142,22 +144,26 @@
 				}
 			} */
 
-			function populateEncounterSelect(encounters) {
-				$('#encounterSelect').empty();
-				var currentEncounter = localStorage.getItem('currentEncounter');
-				if(!encounters[currentEncounter]) {
-					currentEncounter = null
+			function populateSelect(dataArray, selectId, currentValueStorageName, selectFunction) {
+				var hashSelectId = '#'+selectId
+				$(hashSelectId).empty();
+				var currentValue = localStorage.getItem(currentValueStorageName);
+				if(!dataArray[currentValue]) {
+					currentValue = null
 				}
-				for (var name in encounters) {
-					if(!currentEncounter) {
-						currentEncounter = name
+				for (var name in dataArray) {
+					if(!currentValue) {
+						currentValue = name
 					}
-					$('#encounterSelect').append(new Option(name));
+					$(hashSelectId).append(new Option(name));
 				}
-				if(currentEncounter) {
-					$('#encounterSelect').val(currentEncounter)
-					encounterSelect(currentEncounter)
+				if(currentValue) {
+					$(hashSelectId).val(currentValue)
+					if(selectFunction) {
+						selectFunction(currentValue)
+					}
 				}
+				return currentValue
 			}
 
 			function loadDefaultLayout() {
@@ -302,8 +308,14 @@
 				stage.update()
 			}
 
+			function instanceSelect(name) {
+				currentInstanceName = name
+				localStorage.setItem('currentInstance', name);
+				currentEncounter = populateSelect(INSTANCES[name], 'encounterSelect', 'currentEncounter', encounterSelect)
+			}
+
 			function encounterSelect(name) {
-				var encounterData = currentDungeon[name]
+				var encounterData = INSTANCES[currentInstanceName][name]
 				$("body")
 					.css("background-image", "url("+encounterData.url+")")
 					.css("background-position", encounterData.position)
@@ -322,6 +334,7 @@
 			<label><input type='button' id="save" onclick='saveCurrentLayout();' value="Save"></label>
 			<label><input type='button' id="saveAs" onclick='saveAs();' value="Save As"></label>
 			<label><input type='button' id="reset" onclick='resetLayout();' value="Reset"></label>
+			<label><select id="instanceSelect" onchange="instanceSelect(value)"></select></label>
 			<label><select id="encounterSelect" onchange="encounterSelect(value)"></select></label>
 		</div>
 		<canvas id="raidCanvas" width="1000" height="1000"></canvas>
